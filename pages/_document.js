@@ -34,11 +34,12 @@ export default class DefaultDocument extends Document {
         <Head>
           <script
             dangerouslySetInnerHTML={{
-              __html: script.setBaseUrl +
-                  script.setOAuthClientId +
-                  script.setOAuthRedirectUrl +
-                  script.setOAuthTokenEndpoint +
-                  script.setVersion,
+              __html:
+                script.setBaseUrl +
+                script.setOAuthClientId +
+                script.setOAuthRedirectUrl +
+                script.setOAuthTokenEndpoint +
+                script.setVersion,
             }}
           />
         </Head>
