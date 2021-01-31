@@ -2,6 +2,13 @@ import Head from "next/head";
 import config from "../common/config";
 
 export default function Home() {
+  const params = new URLSearchParams();
+  params.set("response_type", "code");
+  params.set("client_id", config.OAUTH_CLIENT_ID);
+  params.set("redirect_uri", config.OAUTH_REDIRECT_URL);
+  params.set("scope", config.OAUTH_SCOPE);
+  const oauthAuthorizionUrl = `${config.OAUTH_AUTHORIZATION_ENDPOINT}?${params}`;
+
   return (
     <div className="container">
       <Head>
@@ -17,6 +24,13 @@ export default function Home() {
         <p className="description">
           Get started by editing <code>pages/index.js</code>
         </p>
+
+        <h2>Login</h2>
+        <div>
+          <a href={oauthAuthorizionUrl} className="btn">
+            Login via OAuth
+          </a>
+        </div>
 
         <h2>config</h2>
         <pre>{JSON.stringify(config, null, 2)}</pre>
@@ -74,6 +88,12 @@ export default function Home() {
         a {
           color: inherit;
           text-decoration: none;
+        }
+
+        a.btn {
+          border: 1px solid blue;
+          border-radius: 5px;
+          padding: 10px;
         }
 
         .title a {

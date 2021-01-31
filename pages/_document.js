@@ -1,4 +1,4 @@
-import Document, { Head, Main, NextScript } from "next/document";
+import Document, { Html, Head, Main, NextScript } from "next/document";
 
 import React from "react";
 import packageJson from "../package.json";
@@ -9,7 +9,9 @@ export default class DefaultDocument extends Document {
       setBaseUrl: "window.BASE_URL = undefined;",
       setOAuthClientId: "window.OAUTH_CLIENT_ID = undefined;",
       setOAuthRedirectUrl: "window.OAUTH_REDIRECT_URL = undefined;",
-      setOAuthTokenEndpoint: "window.OAUTH_TOKEN_ENDPOINT = undefined;",
+      setOAuthAuthorizationEndpoint:
+        "window.OAUTH_AUTHORIZATION_ENDPOINT = undefined;",
+      setOAuthScope: "window.OAUTH_SCOPE = undefined;",
       setVersion: `window.VERSION = '${packageJson.version}';`,
     };
 
@@ -25,12 +27,16 @@ export default class DefaultDocument extends Document {
       script.setOAuthRedirectUrl = `window.OAUTH_REDIRECT_URL = '${process.env.OAUTH_REDIRECT_URL}';`;
     }
 
-    if (process.env.OAUTH_TOKEN_ENDPOINT) {
-      script.setOAuthTokenEndpoint = `window.OAUTH_TOKEN_ENDPOINT = '${process.env.OAUTH_TOKEN_ENDPOINT}';`;
+    if (process.env.OAUTH_SCOPE) {
+      script.setOAuthScope = `window.OAUTH_SCOPE = '${process.env.OAUTH_SCOPE}';`;
+    }
+
+    if (process.env.OAUTH_AUTHORIZATION_ENDPOINT) {
+      script.setOAuthAuthorizationEndpoint = `window.OAUTH_AUTHORIZATION_ENDPOINT = '${process.env.OAUTH_AUTHORIZATION_ENDPOINT}';`;
     }
 
     return (
-      <html lang={this.props.__NEXT_DATA__.props.lang || "en"}>
+      <Html lang={this.props.__NEXT_DATA__.props.lang || "en"}>
         <Head>
           <script
             dangerouslySetInnerHTML={{
@@ -38,7 +44,8 @@ export default class DefaultDocument extends Document {
                 script.setBaseUrl +
                 script.setOAuthClientId +
                 script.setOAuthRedirectUrl +
-                script.setOAuthTokenEndpoint +
+                script.setOAuthAuthorizationEndpoint +
+                script.setOAuthScope +
                 script.setVersion,
             }}
           />
@@ -47,7 +54,7 @@ export default class DefaultDocument extends Document {
           <Main />
           <NextScript />
         </body>
-      </html>
+      </Html>
     );
   }
 }
